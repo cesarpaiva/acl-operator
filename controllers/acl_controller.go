@@ -430,7 +430,7 @@ func (r *ACLReconciler) egressRulesForTsuruAppPool(_ context.Context, tsuruAppPo
 	return egress, nil
 }
 
-func (r *ACLReconciler) egressRulesForKubernetesSelector(_ context.Context, selector *v1alpha1.KubernetesSelector) ([]netv1.NetworkPolicyEgressRule, error) {
+func (r *ACLReconciler) egressRulesForKubernetesSelector(_ context.Context, selector *v1alpha1.KubernetesSelectorDestination) ([]netv1.NetworkPolicyEgressRule, error) {
 	if len(selector.MatchLabels) == 0 {
 		return nil, fmt.Errorf("kubernetesSelector.matchLabels must not be empty")
 	}
@@ -444,7 +444,7 @@ func (r *ACLReconciler) egressRulesForKubernetesSelector(_ context.Context, sele
 	if selector.Namespace != "" {
 		peer.NamespaceSelector = &metav1.LabelSelector{
 			MatchLabels: map[string]string{
-				"name": selector.Namespace,
+				"kubernetes.io/metadata.name": selector.Namespace,
 			},
 		}
 	}
@@ -789,7 +789,7 @@ func (r *ACLReconciler) podSelectorForRpasInstance(rpaasInstance *v1alpha1.ACLSp
 	}
 }
 
-func (r *ACLReconciler) podSelectorForKubernetesSelector(selector *v1alpha1.KubernetesSelector) map[string]string {
+func (r *ACLReconciler) podSelectorForKubernetesSelector(selector *v1alpha1.KubernetesSelectorSource) map[string]string {
 	if len(selector.MatchLabels) == 0 {
 		return nil
 	}

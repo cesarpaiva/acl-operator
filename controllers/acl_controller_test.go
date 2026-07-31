@@ -166,7 +166,7 @@ func (suite *ControllerSuite) TestACLReconcilerKubernetesSelectorReconcile() {
 		},
 		Spec: v1alpha1.ACLSpec{
 			Source: v1alpha1.ACLSpecSource{
-				KubernetesSelector: &v1alpha1.KubernetesSelector{
+				KubernetesSelector: &v1alpha1.KubernetesSelectorSource{
 					MatchLabels: map[string]string{
 						"app":  "my-api",
 						"team": "squad-a",
@@ -175,7 +175,7 @@ func (suite *ControllerSuite) TestACLReconcilerKubernetesSelectorReconcile() {
 			},
 			Destinations: []v1alpha1.ACLSpecDestination{
 				{
-					KubernetesSelector: &v1alpha1.KubernetesSelector{
+					KubernetesSelector: &v1alpha1.KubernetesSelectorDestination{
 						Namespace: "workspace-squad-b",
 						MatchLabels: map[string]string{
 							"app":  "billing",
@@ -187,7 +187,7 @@ func (suite *ControllerSuite) TestACLReconcilerKubernetesSelectorReconcile() {
 					},
 				},
 				{
-					KubernetesSelector: &v1alpha1.KubernetesSelector{
+					KubernetesSelector: &v1alpha1.KubernetesSelectorDestination{
 						MatchLabels: map[string]string{
 							"app": "cache",
 						},
@@ -248,7 +248,7 @@ func (suite *ControllerSuite) TestACLReconcilerKubernetesSelectorReconcile() {
 				},
 				NamespaceSelector: &metav1.LabelSelector{
 					MatchLabels: map[string]string{
-						"name": "workspace-squad-b",
+						"kubernetes.io/metadata.name": "workspace-squad-b",
 					},
 				},
 			},
@@ -277,13 +277,13 @@ func (suite *ControllerSuite) TestACLReconcilerKubernetesSelectorEmptySourceMatc
 		},
 		Spec: v1alpha1.ACLSpec{
 			Source: v1alpha1.ACLSpecSource{
-				KubernetesSelector: &v1alpha1.KubernetesSelector{
+				KubernetesSelector: &v1alpha1.KubernetesSelectorSource{
 					MatchLabels: map[string]string{},
 				},
 			},
 			Destinations: []v1alpha1.ACLSpecDestination{
 				{
-					KubernetesSelector: &v1alpha1.KubernetesSelector{
+					KubernetesSelector: &v1alpha1.KubernetesSelectorDestination{
 						MatchLabels: map[string]string{"app": "cache"},
 					},
 				},
@@ -322,13 +322,13 @@ func (suite *ControllerSuite) TestACLReconcilerKubernetesSelectorEmptyDestinatio
 		},
 		Spec: v1alpha1.ACLSpec{
 			Source: v1alpha1.ACLSpecSource{
-				KubernetesSelector: &v1alpha1.KubernetesSelector{
+				KubernetesSelector: &v1alpha1.KubernetesSelectorSource{
 					MatchLabels: map[string]string{"app": "my-api"},
 				},
 			},
 			Destinations: []v1alpha1.ACLSpecDestination{
 				{
-					KubernetesSelector: &v1alpha1.KubernetesSelector{
+					KubernetesSelector: &v1alpha1.KubernetesSelectorDestination{
 						MatchLabels: map[string]string{},
 					},
 				},
